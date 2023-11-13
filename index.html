@@ -1,0 +1,72 @@
+<html>
+
+<head>
+    <title>zorway-test</title>
+</head>
+
+<body>
+    <button id="microsoftBtn">Sign in with microsoft</button>
+    <button id="microsoftBtnSignout">Signout</button>
+</body>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+    import { getAuth, signInWithPopup, OAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDIok2kd381KksvJwSeOhBS_ItwiLtCMaE",
+        authDomain: "zorway-test.firebaseapp.com",
+        projectId: "zorway-test",
+        storageBucket: "zorway-test.appspot.com",
+        messagingSenderId: "233699211411",
+        appId: "1:233699211411:web:da5d4161a3929ac9337566"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            alert(user.displayName);
+            auth.currentUser.getIdToken().then(function (idToken) {
+                console.log(idToken)
+            }).catch(function (error) {
+                console.log(error)
+            });
+        } else {
+            alert("NULL")
+        }
+    })
+
+
+
+    microsoftBtn.addEventListener('click', (e) => {
+        const provider = new OAuthProvider('microsoft.com');
+        provider.setCustomParameters({
+            prompt: 'consent',
+            tenant: '5131329f-62f1-4d08-8378-7971f6487fc7'
+        });
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                const credential = OAuthProvider.credentialFromResult(result);
+                const accessToken = credential.accessToken;
+                const idToken = credential.idToken;
+
+                console.log(auth.currentUser)
+
+                console.log(accessToken)
+                console.log(idToken)
+
+            })
+            .catch((error) => {
+                console.log(error)
+            });
+
+    })
+
+    microsoftBtnSignout.addEventListener('click', (e) => {
+        signOut(auth)
+    })
+</script>
+
+</html>

@@ -1,0 +1,27 @@
+#Database (Zorway-test)
+	#Collection (Users)
+		#Document
+			uId
+			Name
+			Profile Pic
+			Email
+			Role (Student / Admin)
+			enrollmentId (Course + Branch + Semester) <CCBBSS>
+	#Collection (Timetable)
+		#Document
+			enrollmentId
+			timetable
+				#Document 
+					Days
+					Slots 
+	#Collection (Attendance)
+		#Document
+			uid
+			attendance
+				#Document
+					Subject
+					Attendance
+	#Collection (Marksheet)
+		
+
+	
